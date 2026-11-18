@@ -1,0 +1,1055 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>磁力下载网站-种子链接解析与资源索引指南</title>
+<meta name="description" content="磁力下载网站提供磁力链接解析、BT种子索引与资源检索的实用指南，覆盖哈希校验、离线下载、做种保种、链接安全与客户端配置，帮你在2026年找到可用的下载入口与避坑方法。">
+<meta name="keywords" content="磁力下载网站">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f4c5c'/%3E%3Cpath d='M9 20a7 7 0 1 1 14 0' fill='none' stroke='%23f2b544' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M16 8v9' stroke='%23f2b544' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='22' r='2.5' fill='%23f2b544'/%3E%3C/svg%3E">
+<style>
+:root{
+  --c-deep:#0f4c5c;
+  --c-deep-2:#123a44;
+  --c-accent:#f2b544;
+  --c-accent-2:#d97706;
+  --c-ink:#1c2a2e;
+  --c-body:#37484d;
+  --c-muted:#6b7d82;
+  --c-line:#d8e2e4;
+  --c-bg:#f6f8f7;
+  --c-card:#ffffff;
+  --c-soft:#eaf1f1;
+  --c-green:#2f7d64;
+  --c-red:#b5482f;
+  --radius:12px;
+  --radius-sm:8px;
+  --shadow:0 2px 10px rgba(15,76,92,.07);
+  --shadow-hover:0 6px 18px rgba(15,76,92,.13);
+  --sp:clamp(14px,2vw,20px);
+  --font:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",system-ui,sans-serif;
+  --sticky-offset:132px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:var(--sticky-offset);}
+body{
+  margin:0;font-family:var(--font);color:var(--c-body);
+  background:var(--c-bg);line-height:1.75;font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{color:var(--c-ink);line-height:1.35;margin:0 0 .6em;font-weight:700;}
+h1{font-size:clamp(1.7rem,4vw,2.5rem);}
+h2{font-size:clamp(1.28rem,2.4vw,1.65rem);}
+h3{font-size:1.08rem;}
+p{margin:0 0 1em;}
+a{color:var(--c-deep);text-decoration:none;}
+a:hover{text-decoration:underline;}
+ul,ol{margin:0 0 1em;padding-left:1.4em;}
+li{margin-bottom:.35em;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;}
+:focus-visible{outline:3px solid var(--c-accent-2);outline-offset:2px;border-radius:4px;}
+
+/* ===== 吸顶区 ===== */
+.sticky-top{position:sticky;top:0;z-index:60;}
+.notice{
+  background:var(--c-deep-2);color:#d7e6e8;font-size:.82rem;
+  padding:7px var(--sp);display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.notice .nk{color:var(--c-accent);font-weight:700;white-space:nowrap;}
+.notice a{color:#fff;text-decoration:underline;}
+.header{
+  background:rgba(255,255,255,.96);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--c-line);box-shadow:var(--shadow);
+}
+.header-in{
+  max-width:1200px;margin:0 auto;padding:10px var(--sp);
+  display:flex;align-items:center;gap:var(--sp);flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--c-deep);font-size:1.08rem;}
+.brand svg{flex:none;}
+.brand:hover{text-decoration:none;}
+.nav{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0;}
+.nav a{
+  padding:6px 10px;border-radius:999px;font-size:.9rem;color:var(--c-body);
+  white-space:nowrap;
+}
+.nav a:hover{background:var(--c-soft);text-decoration:none;color:var(--c-deep);}
+.nav a.active{background:var(--c-deep);color:#fff;}
+.header-tools{display:flex;align-items:center;gap:8px;}
+.search-form{display:flex;align-items:center;background:var(--c-soft);border-radius:999px;padding:3px 4px 3px 12px;border:1px solid transparent;}
+.search-form:focus-within{border-color:var(--c-deep);background:#fff;}
+.search-form input{border:0;background:transparent;outline:none;font-size:.88rem;width:150px;color:var(--c-ink);}
+.search-form button{
+  border:0;background:var(--c-deep);color:#fff;border-radius:999px;
+  padding:6px 14px;font-size:.85rem;cursor:pointer;
+}
+.search-form button:hover{background:var(--c-deep-2);}
+.menu-btn{
+  display:none;border:1px solid var(--c-line);background:#fff;border-radius:8px;
+  padding:7px 11px;cursor:pointer;color:var(--c-deep);font-size:.88rem;align-items:center;gap:6px;
+}
+.live-search{
+  max-width:1200px;margin:0 auto;padding:0 var(--sp);
+}
+.search-result{
+  display:none;background:#fff;border:1px solid var(--c-line);border-radius:var(--radius-sm);
+  margin:8px 0 0;padding:10px 14px;font-size:.88rem;box-shadow:var(--shadow);max-height:260px;overflow:auto;
+}
+.search-result.on{display:block;}
+.search-result li{margin-bottom:6px;}
+.search-result .nores{color:var(--c-red);}
+
+/* ===== 布局 ===== */
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--sp);}
+.hero{
+  position:relative;overflow:hidden;color:#eaf3f2;
+  background:linear-gradient(150deg,#0f4c5c 0%,#123a44 58%,#0b2a31 100%);
+}
+.hero-in{
+  max-width:1200px;margin:0 auto;padding:clamp(34px,6vw,64px) var(--sp);
+  display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(20px,4vw,48px);align-items:center;
+  position:relative;z-index:2;
+}
+.hero .tag{
+  display:inline-flex;align-items:center;gap:7px;font-size:.8rem;letter-spacing:.05em;
+  background:rgba(242,181,68,.14);color:var(--c-accent);border:1px solid rgba(242,181,68,.4);
+  padding:4px 12px;border-radius:999px;margin-bottom:16px;
+}
+.hero h1{color:#fff;margin-bottom:.4em;}
+.hero p.lead{color:#c8dcdd;font-size:1.02rem;max-width:36em;}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;}
+.btn{
+  display:inline-block;padding:11px 22px;border-radius:10px;font-size:.94rem;font-weight:600;
+  transition:transform .18s,box-shadow .18s,background .18s;
+}
+.btn:hover{text-decoration:none;transform:translateY(-2px);}
+.btn-primary{background:var(--c-accent);color:#20221a;box-shadow:0 4px 14px rgba(242,181,68,.3);}
+.btn-primary:hover{background:#f7c463;}
+.btn-ghost{background:transparent;color:#e6f1f1;border:1px solid rgba(230,241,241,.5);}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.06);}
+.hero-art{position:relative;min-height:220px;}
+.hero-art svg{width:100%;height:auto;display:block;}
+.hero-stats{display:flex;gap:22px;margin-top:26px;flex-wrap:wrap;}
+.hero-stats b{display:block;font-size:1.32rem;color:var(--c-accent);line-height:1.2;}
+.hero-stats span{font-size:.78rem;color:#a9c3c6;}
+
+.section{padding:clamp(30px,4.5vw,52px) 0;border-bottom:1px solid var(--c-line);}
+.section:last-of-type{border-bottom:0;}
+.sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:22px;}
+.sec-head h2{margin:0;}
+.sec-head .sub{font-size:.86rem;color:var(--c-muted);}
+.sec-head .count{font-size:.78rem;color:var(--c-deep);background:var(--c-soft);padding:2px 10px;border-radius:999px;}
+
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp);}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--sp);}
+.card{
+  background:var(--c-card);border:1px solid var(--c-line);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+.card h3{margin-bottom:.35em;}
+.card p{font-size:.9rem;color:var(--c-body);margin-bottom:.6em;}
+.card .meta{font-size:.78rem;color:var(--c-muted);display:flex;gap:10px;flex-wrap:wrap;}
+.chip{
+  display:inline-block;font-size:.76rem;padding:2px 9px;border-radius:999px;
+  background:var(--c-soft);color:var(--c-deep);margin:0 6px 6px 0;
+}
+.chip:hover{text-decoration:none;background:#dce9e9;}
+.chip.hot{background:rgba(242,181,68,.22);color:#8a5a04;}
+
+.list{list-style:none;padding:0;margin:0;}
+.list li{
+  padding:12px 0;border-bottom:1px dashed var(--c-line);display:flex;gap:14px;
+  align-items:flex-start;font-size:.92rem;
+}
+.list li:last-child{border-bottom:0;}
+.list .date{flex:none;color:var(--c-muted);font-size:.8rem;width:78px;padding-top:2px;}
+.list .body{flex:1;min-width:0;}
+.list .body b{color:var(--c-ink);}
+.list .hint{font-size:.8rem;color:var(--c-muted);}
+
+/* 体验步骤 */
+.steps{counter-reset:step;list-style:none;padding:0;margin:0;display:grid;gap:14px;}
+.steps li{
+  counter-increment:step;position:relative;padding:16px 18px 16px 60px;
+  background:var(--c-card);border:1px solid var(--c-line);border-radius:var(--radius);
+  box-shadow:var(--shadow);font-size:.93rem;
+}
+.steps li::before{
+  content:counter(step);position:absolute;left:16px;top:15px;
+  width:30px;height:30px;border-radius:50%;background:var(--c-deep);color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:.9rem;
+}
+.steps b{color:var(--c-ink);}
+
+/* 对照面板 */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--c-line);border-radius:var(--radius);overflow:hidden;background:#fff;}
+.compare>div{padding:18px;}
+.compare .col-a{background:#f2f8f7;border-right:1px solid var(--c-line);}
+.compare .col-b{background:#fdf6e9;}
+.compare h3{font-size:1rem;margin-bottom:.6em;}
+.compare ul{padding-left:1.15em;font-size:.88rem;margin-bottom:0;}
+.compare li{margin-bottom:.45em;}
+.compare .verdict{grid-column:1/-1;background:var(--c-deep);color:#dfeeee;padding:12px 18px;font-size:.87rem;}
+.compare .verdict b{color:var(--c-accent);}
+
+/* 深度解析 */
+.article{background:#fff;border:1px solid var(--c-line);border-radius:var(--radius);padding:clamp(20px,3.5vw,38px);box-shadow:var(--shadow);}
+.article h3{margin-top:1.6em;padding-left:12px;border-left:4px solid var(--c-accent);}
+.article h3:first-child{margin-top:0;}
+.article p{font-size:.95rem;}
+.article .callout{
+  background:var(--c-soft);border-radius:var(--radius-sm);padding:14px 18px;margin:1.1em 0;
+  font-size:.9rem;border-left:4px solid var(--c-deep);
+}
+.article .callout b{color:var(--c-deep);}
+.datatable{width:100%;border-collapse:collapse;font-size:.86rem;margin:1em 0;}
+.datatable th,.datatable td{border:1px solid var(--c-line);padding:8px 10px;text-align:left;vertical-align:top;}
+.datatable th{background:var(--c-soft);color:var(--c-ink);}
+.datatable tr:hover td{background:#fbfdfc;}
+
+/* FAQ */
+.faq-item{border:1px solid var(--c-line);border-radius:var(--radius-sm);background:#fff;margin-bottom:10px;overflow:hidden;}
+.faq-item summary{
+  cursor:pointer;padding:13px 16px;font-weight:600;color:var(--c-ink);font-size:.94rem;
+  list-style:none;position:relative;padding-right:40px;
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{content:"+";position:absolute;right:16px;top:11px;color:var(--c-deep);font-size:1.2rem;font-weight:400;}
+.faq-item[open] summary::after{content:"−";}
+.faq-item summary:hover{background:#fbfdfc;}
+.faq-item .ans{padding:0 16px 14px;font-size:.9rem;color:var(--c-body);}
+.faq-item[open]{box-shadow:var(--shadow);}
+
+/* 评论 */
+.comment-list{display:grid;gap:12px;}
+.comment{background:#fff;border:1px solid var(--c-line);border-radius:var(--radius);padding:14px 16px;font-size:.9rem;}
+.comment .who{display:flex;align-items:center;gap:9px;margin-bottom:6px;font-size:.82rem;color:var(--c-muted);}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--c-deep);color:#fff;display:grid;place-items:center;font-size:.82rem;font-weight:700;flex:none;}
+.comment .who b{color:var(--c-ink);font-size:.88rem;}
+.comment .ref{font-size:.78rem;color:var(--c-deep);background:var(--c-soft);padding:1px 8px;border-radius:4px;}
+.comment.neutral{border-left:4px solid var(--c-accent);}
+
+/* 榜单 */
+.rank{list-style:none;padding:0;margin:0;display:grid;gap:10px;}
+.rank li{
+  display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--c-line);
+  border-radius:var(--radius-sm);padding:12px 16px;font-size:.9rem;
+}
+.rank .no{flex:none;width:30px;height:30px;border-radius:8px;background:var(--c-soft);color:var(--c-deep);display:grid;place-items:center;font-weight:800;font-size:.88rem;}
+.rank li:nth-child(1) .no{background:var(--c-accent);color:#20221a;}
+.rank li:nth-child(2) .no{background:#cfdcdc;color:#2b3a3a;}
+.rank li:nth-child(3) .no{background:#e3cfa8;color:#5a4210;}
+.rank .grow{flex:1;min-width:0;}
+.rank .num{color:var(--c-muted);font-size:.8rem;white-space:nowrap;}
+
+/* 时间线 */
+.timeline{list-style:none;padding:0 0 0 24px;margin:0;border-left:2px solid var(--c-line);}
+.timeline li{position:relative;margin-bottom:20px;}
+.timeline li::before{
+  content:"";position:absolute;left:-31px;top:6px;width:12px;height:12px;border-radius:50%;
+  background:var(--c-accent);border:2px solid #fff;box-shadow:0 0 0 2px var(--c-line);
+}
+.timeline time{font-size:.78rem;color:var(--c-muted);display:block;}
+.timeline b{color:var(--c-ink);}
+.timeline p{font-size:.89rem;margin:.25em 0 0;}
+
+/* 用户互动 */
+.poll{background:#fff;border:1px solid var(--c-line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+.poll .opt{display:block;width:100%;text-align:left;border:1px solid var(--c-line);background:#fbfdfc;border-radius:8px;padding:10px 14px;margin-bottom:8px;cursor:pointer;font-size:.9rem;color:var(--c-body);position:relative;overflow:hidden;}
+.poll .opt:hover{border-color:var(--c-deep);}
+.poll .opt .bar{position:absolute;left:0;top:0;bottom:0;background:rgba(15,76,92,.12);width:0;transition:width .5s;}
+.poll .opt .txt{position:relative;z-index:1;display:flex;justify-content:space-between;gap:10px;}
+.poll .opt[aria-pressed="true"]{border-color:var(--c-deep);font-weight:600;}
+.poll .tip{font-size:.82rem;color:var(--c-green);min-height:1.4em;}
+
+/* 页脚 */
+.footer{background:var(--c-deep-2);color:#b9cfd1;padding:clamp(30px,4.5vw,52px) 0 20px;font-size:.9rem;}
+.footer a{color:#dcebec;}
+.footer h3{color:#fff;font-size:.98rem;margin-bottom:.8em;}
+.footer .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:var(--sp);}
+.footer .brand-f{color:#fff;font-size:1.1rem;font-weight:800;display:flex;gap:9px;align-items:center;margin-bottom:10px;}
+.footer .pos{font-size:.86rem;color:#9fbabe;max-width:30em;}
+.footer ul{list-style:none;padding:0;}
+.footer ul li{margin-bottom:.45em;}
+.footer .bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:28px;padding-top:16px;font-size:.78rem;color:#8fa9ad;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;}
+
+#toTop{
+  position:fixed;right:18px;bottom:22px;width:46px;height:46px;border-radius:50%;
+  border:0;background:var(--c-deep);color:#fff;font-size:1.15rem;cursor:pointer;
+  box-shadow:0 4px 16px rgba(15,76,92,.35);opacity:0;visibility:hidden;transform:translateY(12px);
+  transition:opacity .25s,transform .25s,visibility .25s;z-index:70;
+}
+#toTop.show{opacity:1;visibility:visible;transform:none;}
+#toTop:hover{background:var(--c-deep-2);}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
+@media (max-width:980px){
+  .hero-in{grid-template-columns:1fr;}
+  .hero-art{order:2;max-width:420px;}
+  .footer .fgrid{grid-template-columns:1fr 1fr;}
+  .grid-3{grid-template-columns:repeat(2,1fr);}
+}
+@media (max-width:720px){
+  :root{--sticky-offset:150px;}
+  .menu-btn{display:inline-flex;}
+  .nav{
+    display:none;width:100%;flex-direction:column;gap:2px;order:5;
+    border-top:1px solid var(--c-line);padding-top:8px;margin-top:6px;
+  }
+  .nav.open{display:flex;}
+  .nav a{white-space:normal;}
+  .header-tools{flex:1;justify-content:flex-end;}
+  .search-form input{width:110px;}
+  .grid-3,.grid-2,.compare{grid-template-columns:1fr;}
+  .compare .col-a{border-right:0;border-bottom:1px solid var(--c-line);}
+  .footer .fgrid{grid-template-columns:1fr;}
+  .list li{flex-direction:column;gap:2px;}
+  .list .date{width:auto;}
+  #toTop{right:12px;bottom:16px;width:42px;height:42px;}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{transition:none!important;animation:none!important;}
+  .card:hover,.btn:hover{transform:none;}
+}
+</style>
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<div class="sticky-top">
+  <div class="notice">
+    <span class="nk">磁力下载网站 · 更新</span>
+    <span>2026-11-06 新增 3 个可用索引镜像，撤销 11 月 2 日误标的「假种」标签；<a href="/#latest">查看更新明细</a></span>
+  </div>
+  <header class="header">
+    <div class="header-in">
+      <a class="brand" href="/#top" aria-label="磁力下载网站 首页">
+        <svg width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="磁力标识图形">
+          <rect width="32" height="32" rx="8" fill="#0f4c5c"></rect>
+          <path d="M8 21a8 8 0 0 1 16 0" fill="none" stroke="#f2b544" stroke-width="3" stroke-linecap="round"></path>
+          <path d="M16 7v10" stroke="#f2b544" stroke-width="3" stroke-linecap="round"></path>
+          <circle cx="16" cy="23" r="2.6" fill="#f2b544"></circle>
+        </svg>
+        <span>磁力下载网站</span>
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainNav">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        频道
+      </button>
+      <nav class="nav" id="mainNav" aria-label="主题频道导航">
+        <a href="/#overview">磁力链接原理</a>
+        <a href="/#picks">精选索引</a>
+        <a href="/#latest">最新收录</a>
+        <a href="/#channels">分类频道</a>
+        <a href="/#deep">哈希与校验</a>
+        <a href="/#guide">客户端配置</a>
+        <a href="/#faq">常见问题</a>
+        <a href="/#rank">资源榜单</a>
+        <a href="/#news">行业动态</a>
+        <a href="/#talk">用户说法</a>
+      </nav>
+      <div class="header-tools">
+        <form class="search-form" id="searchForm" role="search" aria-label="站内本地查找">
+          <label class="sr-only" for="q">查找资源条目或术语</label>
+          <input id="q" name="q" type="search" placeholder="搜条目 / 术语" autocomplete="off">
+          <button type="submit">查找</button>
+        </form>
+      </div>
+    </div>
+    <div class="live-search">
+      <div class="search-result" id="searchResult" aria-live="polite"></div>
+    </div>
+  </header>
+</div>
+
+<main id="top">
+
+  <!-- 首屏 -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-in">
+      <div>
+        <span class="tag">BT 资源索引 · 哈希解析 · 2026 版</span>
+        <h1 id="heroTitle">磁力下载网站</h1>
+        <p class="lead">把 magnet:?xt=urn:btih 这类链接变成可读的资源条目：解析哈希、核对做种数、判断文件清单，再交给 qBittorrent、Transmission 或迅雷离线。这里记录 2026 年 11 月仍能打开的那批索引站，以及它们各自的收录取向。</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="/#picks">看本周精选条目</a>
+          <a class="btn btn-ghost" href="/#guide">客户端配置步骤</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>486</b><span>本周索引条目</span></div>
+          <div><b>12</b><span>可解析哈希格式</span></div>
+          <div><b>7</b><span>测速可用镜像</span></div>
+          <div><b>3</b><span>本月规则变更</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 420 300" role="presentation">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#174e5b"></stop>
+              <stop offset="1" stop-color="#0b2a31"></stop>
+            </linearGradient>
+          </defs>
+          <rect x="10" y="30" width="400" height="240" rx="16" fill="url(#g1)" stroke="#2d6f7d" stroke-opacity=".6"></rect>
+          <circle cx="120" cy="150" r="62" fill="none" stroke="#f2b544" stroke-width="3" stroke-dasharray="7 7"></circle>
+          <circle cx="120" cy="150" r="40" fill="none" stroke="#6fb3b8" stroke-width="2" stroke-opacity=".7"></circle>
+          <path d="M120 100v50" stroke="#f2b544" stroke-width="4" stroke-linecap="round"></path>
+          <path d="M100 150a20 20 0 0 0 40 0" fill="none" stroke="#f2b544" stroke-width="4" stroke-linecap="round"></path>
+          <circle cx="120" cy="160" r="5" fill="#f2b544"></circle>
+          <rect x="210" y="88" width="168" height="10" rx="5" fill="#2d6f7d"></rect>
+          <rect x="210" y="110" width="130" height="10" rx="5" fill="#245a66"></rect>
+          <rect x="210" y="132" width="150" height="10" rx="5" fill="#245a66"></rect>
+          <rect x="210" y="154" width="96" height="10" rx="5" fill="#245a66"></rect>
+          <rect x="210" y="182" width="60" height="24" rx="12" fill="#f2b544"></rect>
+          <text x="240" y="199" text-anchor="middle" font-size="12" font-family="sans-serif" fill="#20221a">btih</text>
+          <rect x="282" y="182" width="96" height="24" rx="12" fill="none" stroke="#6fb3b8"></rect>
+          <text x="330" y="199" text-anchor="middle" font-size="12" font-family="sans-serif" fill="#a9c3c6">tracker</text>
+          <rect x="210" y="222" width="168" height="8" rx="4" fill="#1d4c56"></rect>
+          <rect x="210" y="238" width="112" height="8" rx="4" fill="#1d4c56"></rect>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <!-- 领域概览 -->
+    <section class="section" id="overview" aria-labelledby="ovTitle">
+      <div class="sec-head">
+        <h2 id="ovTitle">领域概览：一条磁力链接里到底装了什么</h2>
+        <span class="sub">先看懂结构，再谈找资源</span>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <h3>哈希与 infohash 的区别</h3>
+          <p>磁力链接的 40 位十六进制串是 BTIH（BitTorrent InfoHash），由种子文件 info 字典做 SHA-1 得到；v2 种子的 BTIH 则走 SHA-256，长度 64 位，前缀写作 <b>urn:btmh:1220</b>。二者不能互相换算。</p>
+          <p class="meta"><span>规则</span><span>2026-10 复核</span></p>
+        </article>
+        <article class="card">
+          <h3>tracker 与 DHT 各自管什么</h3>
+          <p>tracker 返回 peer 列表，DHT 靠节点路由表找到同样持有该哈希的终端。公网种子里 <b>udp://tracker.opentrackr.org:1337</b> 一类 UDP tracker 占比高，tracker 全挂时 DHT 仍可能救活一个老种。</p>
+          <p class="meta"><span>网络层</span><span>示例协议</span></p>
+        </article>
+        <article class="card">
+          <h3>做种数与健康度不是一件事</h3>
+          <p>列表页写的「seeds 128」通常来自 tracker 上报，可能包含长期挂机节点。真实速度要看 10 分钟内实际完成连接的 peer 数，qBittorrent 的「可用性」一栏更接近体感。</p>
+          <p class="meta"><span>判断方法</span><span>示例数据</span></p>
+        </article>
+      </div>
+      <div class="callout" style="margin-top:18px;background:var(--c-card);border:1px solid var(--c-line);border-left:4px solid var(--c-deep);border-radius:var(--radius-sm);padding:14px 18px;font-size:.9rem;">
+        <b>可核对的判断：</b>同一部 2026 年 9 月发布的纪录片，A 站显示 96 个做种、B 站显示 21 个，差距常常来自 tracker 名单不同而不是资源活跃度。关掉 A 站额外挂的 18 个公共 tracker 后，数量会回落到 23 附近——这一点在 qBittorrent 4.6.7 的「来源」列可以直接看到。
+      </div>
+    </section>
+
+    <!-- 精选内容推荐 -->
+    <section class="section" id="picks" aria-labelledby="pkTitle">
+      <div class="sec-head">
+        <h2 id="pkTitle">精选内容推荐：本周值得先存后看的条目</h2>
+        <span class="count">2026-11-03 至 11-07</span>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <span class="chip hot">高活跃</span>
+          <h3>《海岸线：潮间带生物图谱》4K 版</h3>
+          <p>单文件 8.4 GB，含 2 条音轨与 SRT 字幕轨。11 月 5 日在两个索引站同时出现，infohash 一致，说明是同源做种。适合先离线再挑字幕。</p>
+          <p class="meta"><span>BTIH：3f9a…d21c</span><span>做种 214</span><span>11-05</span></p>
+        </article>
+        <article class="card">
+          <span class="chip">长期种</span>
+          <h3>Linux 内核 6.12 文档 PDF 合集</h3>
+          <p>开源授权，2019 年起的种子仍在慢速做种。文件数 317，总 1.9 GB。下大包前先勾选需要的章节，避免一次拖完整目录。</p>
+          <p class="meta"><span>BTIH：a72e…8810</span><span>做种 63</span><span>11-04</span></p>
+        </article>
+        <article class="card">
+          <span class="chip hot">补档</span>
+          <h3>2026 环法第 12 赛段 1080p 回放</h3>
+          <p>11 月 2 日被误标为「假种」，11 月 6 已撤销标签。原因是索引站抓到了失效的旧哈希，新哈希以 1d06 结尾，下载前请核对后四位。</p>
+          <p class="meta"><span>BTIH：1d06…4b7f</span><span>做种 47</span><span>11-06 修订</span></p>
+        </article>
+        <article class="card">
+          <span class="chip">小体积</span>
+          <h3>城市骑行路线 GPX 包（2026 秋）</h3>
+          <p>42 条 GPX 轨迹 + 海拔图，合计 86 MB。适合手机端 OsmAnd 直接导入。做种少但文件小，通常 3 分钟内能拿到完整元数据。</p>
+          <p class="meta"><span>BTIH：c09b…5e42</span><span>做种 12</span><span>11-03</span></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 最新更新（紧凑列表） -->
+    <section class="section" id="latest" aria-labelledby="ltTitle">
+      <div class="sec-head">
+        <h2 id="ltTitle">最新更新：索引变更与条目修订日志</h2>
+        <span class="sub">按日倒序，只记录已核实的变动</span>
+      </div>
+      <ul class="list">
+        <li>
+          <span class="date">11-07</span>
+          <div class="body">
+            <b>新增镜像 index-m3 与 index-q7 可用</b>，两者均支持 BTIH v1 与 v2 双格式查询。<span class="hint">实测 DNS 解析正常，元数据获取耗时 1.2 秒。</span>
+          </div>
+        </li>
+        <li>
+          <span class="date">11-06</span>
+          <div class="body">
+            <b>撤销「2026 环法第 12 赛段」的假种标签</b>。原标签由 10 月 30 日的旧哈希比对产生，属于误判。<span class="hint">修订记录可对照条目页的版本号 v2026.11.06-2。</span>
+          </div>
+        </li>
+        <li>
+          <span class="date">11-05</span>
+          <div class="body">
+            <b>《海岸线：潮间带生物图谱》双站同源确认</b>。两站 infohash 前 8 位一致，文件树条目数相同，均为 5 个。<span class="hint">据此合并为一个条目，避免重复计数。</span>
+          </div>
+        </li>
+        <li>
+          <span class="date">11-04</span>
+          <div class="body">
+            <b>Linux 内核文档合集更新文件清单</b>，新增 6.12 章节，总数 317。<span class="hint">整包体积从 1.8 GB 增至 1.9 GB。</span>
+          </div>
+        </li>
+        <li>
+          <span class="date">11-02</span>
+          <div class="body">
+            <b>三个老 tracker 停止响应</b>：tracker.example-a、tracker.example-b 与 opentrackr 备用端口。<span class="hint">已在客户端推荐列表移除，DHT 不受影响。</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 分类入口（标签索引） -->
+    <section class="section" id="channels" aria-labelledby="chTitle">
+      <div class="sec-head">
+        <h2 id="chTitle">分类入口：按资源类型找索引</h2>
+        <span class="sub">每类标注收录取向，避免进错站</span>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>影视剧集磁力索引</h3>
+          <p>以当季美剧、日剧、国产剧单集包为主，常见 HEVC 与 AV1 两种编码。多数站按「剧名 + 季集 + 分辨率」命名，找老剧要先确认年份。</p>
+          <p><a class="chip" href="/#picks">4K 剧集</a><a class="chip" href="/#picks">1080p 回放</a><a class="chip" href="/#rank">高做种条目</a></p>
+        </div>
+        <div class="card">
+          <h3>开源软件与镜像 ISO</h3>
+          <p>Debian、Ubuntu、Arch 官方 ISO 通常同时提供 HTTP 与 BT 两种方式。BT 的好处是校验和一致，坏包概率低；老旧 LTS 版本仍需备用 tracker。</p>
+          <p><a class="chip" href="/#deep">SHA-256 校验</a><a class="chip" href="/#guide">qBittorrent</a><a class="chip" href="/#latest">镜像更新</a></p>
+        </div>
+        <div class="card">
+          <h3>有声书与播客合集</h3>
+          <p>单集 MP3 或整季 M4B，体积从 200 MB 到 3 GB 不等。做种周期普遍短，超过 90 天的条目要提前判断是否已成死种。</p>
+          <p><a class="chip" href="/#guide">手机端导入</a><a class="chip" href="/#faq">死种判断</a><a class="chip" href="/#talk">听友反馈</a></p>
+        </div>
+        <div class="card">
+          <h3>学术论文与公开数据集</h3>
+          <p>arXiv 批量包、Common Crawl 分片、开放语料合集。注意授权条款：CC-BY 可再分发，CC-BY-NC 仅限非商业使用。</p>
+          <p><a class="chip" href="/#deep">哈希比对</a><a class="chip" href="/#news">授权变更</a><a class="chip" href="/#rank">数据集榜</a></p>
+        </div>
+        <div class="card">
+          <h3>游戏补丁与 MOD 包</h3>
+          <p>补丁多为单文件，MOD 包常带嵌套压缩。下之前先看文件树层级，避免解压出三层同名文件夹。</p>
+          <p><a class="chip" href="/#guide">文件树勾选</a><a class="chip" href="/#faq">嵌套目录</a><a class="chip" href="/#talk">玩家说法</a></p>
+        </div>
+        <div class="card">
+          <h3>无损音乐整轨与分轨</h3>
+          <p>FLAC 整轨带 CUE 最常见，也有分轨加封面。整轨包体积大，做种少时优先选分轨版本。</p>
+          <p><a class="chip" href="/#picks">精选条目</a><a class="chip" href="/#rank">做种排名</a><a class="chip" href="/#faq">CUE 处理</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 深度解析 -->
+    <section class="section" id="deep" aria-labelledby="dpTitle">
+      <div class="sec-head">
+        <h2 id="dpTitle">深度解析：索引站的「做种数」可信到什么程度</h2>
+        <span class="sub">可引用，也可被反驳的判断</span>
+      </div>
+      <article class="article">
+        <h3>一、同一个哈希，两站数字差 4 倍，问题通常出在 tracker 名单</h3>
+        <p>2026 年 10 月 28 日，用 qBittorrent 4.6.7 分别向两个索引站查询同一部纪录片的 BTIH。A 站返回 seeds 96、peers 140；B 站返回 seeds 21、peers 33。把两站给出的 tracker 列表合并后重新添加，客户端「来源」列显示：A 站额外带了 18 个公共 UDP tracker，其中 11 个已失效但仍在名单里，B 站只保留 3 个。</p>
+        <p>这组数字说明，列表页的做种数更接近「tracker 上报的节点总和」，而不是「此刻能连上的节点数」。索引站抓取时间差、tracker 是否去重、是否把下载者算进 peers，都会让同一资源出现明显不同的数字。把 A 站额外 tracker 移除后，seeds 回落到 23，与 B 站接近。</p>
+        <div class="callout">
+          <b>可以拿去引用的判断：</b>在两站之间做选择时，比较做种数的绝对值没有意义，比较「同一哈希在两站的 tracker 名单差异」才有意义。名单越长，数字虚高的概率越大。
+        </div>
+
+        <h3>二、10 月 30 日到 11 月 6 日，一次误判的完整链路</h3>
+        <ul>
+          <li><b>10-30</b>：索引站抓到《2026 环法第 12 赛段》的旧哈希，对应文件已被发布者删除，元数据获取失败。</li>
+          <li><b>10-31</b>：自动规则把「元数据获取失败 + 做种小于 5」标记为假种，条目打上标签。</li>
+          <li><b>11-02</b>：有用户在评论区指出新版哈希以 1d06 结尾，且能正常拉取 1.4 GB 主文件。</li>
+          <li><b>11-06</b>：人工复核确认旧哈希确已失效，但新哈希有效，撤销标签并保留两条哈希记录。</li>
+        </ul>
+        <p>误判的根源不是规则本身，而是「一个标题只对应一个哈希」的隐含假设。体育回放、剧集重压、字幕修订都会让同一内容长出多个哈希。用户看到假种标签时，先查条目页是否列出多个 BTIH，比直接放弃更省时间。</p>
+
+        <h3>三、把「能不能下」拆成四项可核对指标</h3>
+        <table class="datatable">
+          <caption style="caption-side:top;text-align:left;font-size:.82rem;color:var(--c-muted);padding-bottom:6px;">以 2026-11-06 抓取的三条示例资源为例，数据为示例值</caption>
+          <thead>
+            <tr><th>指标</th><th>条目甲（纪录片）</th><th>条目乙（内核文档）</th><th>条目丙（环法回放）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>元数据获取耗时</td><td>1.2 秒</td><td>0.8 秒</td><td>2.6 秒</td></tr>
+            <tr><td>10 分钟内连上的 peer</td><td>58</td><td>19</td><td>12</td></tr>
+            <tr><td>tracker 名单条数</td><td>21（含失效 11）</td><td>6</td><td>14（含失效 9）</td></tr>
+            <tr><td>完整文件可得性</td><td>可得</td><td>可得</td><td>主文件可得，附加音轨缺失</td></tr>
+          </tbody>
+        </table>
+        <p>四项里任何一项出问题，都会让「看起来做种很多」的条目实际下不动。条目丙的附加音轨缺失，是因为发布者只保留了主视频哈希，音轨在另一个种子里——这类拆分在体育回放中很常见。</p>
+
+        <h3>四、v1 与 v2 混部之后，索引站还没跟上</h3>
+        <p>BTIH v2 使用 SHA-256，长度 64 位，理论上是更安全的哈希方案。2026 年 10 月起，部分开源镜像开始同时发布 v1、v2 两套种子，但多数索引站的搜索框仍只接受 40 位输入。把 64 位哈希粘贴进去，返回「格式错误」的站点不在少数；做得好的站点会提示「检测到 btmh，请使用客户端添加」。</p>
+        <p>实践上，遇到 64 位 BTIH 时直接把完整 magnet 链接复制进 qBittorrent 的「添加链接」，比在索引站搜索更可靠。索引站的角色是发现资源，不是解析所有格式。</p>
+      </article>
+    </section>
+
+    <!-- 体验指南（编号步骤 + 图片） -->
+    <section class="section" id="guide" aria-labelledby="gdTitle">
+      <div class="sec-head">
+        <h2 id="gdTitle">体验指南：从一条链接到文件落盘</h2>
+        <span class="sub">以 qBittorrent 4.6.7 与手机端 Transdrone 为例</span>
+      </div>
+      <div class="grid-2" style="align-items:start;">
+        <ol class="steps">
+          <li><b>核对哈希后四位。</b>复制 magnet 链接时顺手记下 btih 末尾 4 位，之后在客户端「常规」页能看到相同字符串，说明没有粘错条目。</li>
+          <li><b>先取元数据，不急着全速。</b>磁力链刚添加时只有哈希，客户端要先连 peer 拉取种子元数据。这一步不要限制上传，否则部分 tracker 会拒绝握手。</li>
+          <li><b>勾选需要的文件。</b>文件树里按大小排序，剧集包常见「正片 + 花絮 + 字幕」三层，先取消花絮与重复字幕，能省 30% 以上流量。</li>
+          <li><b>设置下载限速与做种比。</b>夜间挂机可把上传限在 2 MB/s，做种比设到 1.0 自动停止，避免长期占满上行。</li>
+          <li><b>校验完成后再播放。</b>qBittorrent 的「强制校验」对 FLAC 与 ISO 尤其必要，能提前发现坏块，免得看到一半卡住。</li>
+        </ol>
+        <div>
+          <img src="https://picsum.photos/seed/magnetguide2026/640/420" width="640" height="420" loading="lazy" alt="桌面端下载客户端文件列表与做种状态界面示意" style="border-radius:12px;object-fit:cover;">
+          <div class="card" style="margin-top:14px;">
+            <h3>手机端怎么接</h3>
+            <p>Android 可用 qBittorrent 官方 Web UI 粘贴 magnet 链接，iOS 侧推荐把链接复制到 Transmission Web 控制台。移动网络下先关掉「仅 Wi-Fi 下载」，否则添加后会一直停在排队状态。</p>
+            <p class="meta"><span>客户端</span><span>示例配置</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" aria-labelledby="fqTitle">
+      <div class="sec-head">
+        <h2 id="fqTitle">常见问题：粘贴链接前后最容易踩的坑</h2>
+        <span class="sub">点开查看答案</span>
+      </div>
+
+      <details class="faq-item">
+        <summary>磁力链接打不开、一直显示「获取元数据」怎么办？</summary>
+        <div class="ans">agent 不在线、tracker 全挂、DHT 被关闭都可能造成这个现象。先把客户端 DHT 打开，等 3—5 分钟；仍无反应就去索引站看该条目最近一次成功抓取时间，超过 7 天没有新 peer，基本可判为死种。</div>
+      </details>
+      <details class="faq-item">
+        <summary>BTIH 的 40 位和 64 位有什么区别，能互转吗？</summary>
+        <div class="ans">40 位是 v1 的 SHA-1 结果，64 位是 v2 的 SHA-256 结果，两者算法不同，不能直接互转。v2 种子通常同时带 v1 兼容哈希，遇到纯 v2 链接时，复制完整 magnet 给客户端比在索引站搜索更稳。</div>
+      </details>
+      <details class="faq-item">
+        <summary>tracker 全失效了，DHT 还能救回老种吗？</summary>
+        <div class="ans">能，但取决于网络环境。DHT 靠节点路由表找持有同一哈希的终端，公网 IP 且未被防火墙拦截时成功率较高。企业网、校园网常封 UDP，这时 DHT 基本无效，只能换 tracker 或等新种。</div>
+      </details>
+      <details class="faq-item">
+        <summary>索引站显示的做种数为什么和客户端不一致？</summary>
+        <div class="ans">索引站数字是抓取时刻 tracker 上报的总和，包含已失效节点与下载者；客户端显示的是此刻实际握手的 peer。两者差 20%—80% 都属常见，比较时看同一哈希在两站的 tracker 名单更有参考价值。</div>
+      </details>
+      <details class="faq-item">
+        <summary>整轨 FLAC 带 CUE 的文件，播放器不识别怎么办？</summary>
+        <div class="ans">CUE 里的文件名编码常与系统不一致，中文曲目尤其明显。用 foobar2000 打开 CUE 后重新保存为 UTF-8，或按曲目时间点手动分轨。分轨版资源做种少，但省去这一步。</div>
+      </details>
+      <details class="faq-item">
+        <summary>同一个标题出现多个哈希，该信哪一个？</summary>
+        <div class="ans">先看条目页是否列出多个 BTIH 并分别标注做种与文件树。多个哈希并存是正常的，体育回放、剧集重压都会产生；只信「元数据获取成功 + 10 分钟内能连上 peer」的那个。</div>
+      </details>
+      <details class="faq-item">
+        <summary>下载到一半没有速度了，是资源被删了吗？</summary>
+        <div class="ans">不一定。发布者撤种、tracker 短暂失联、本地磁盘写满都会让速度归零。先看客户端「对等」页是否还有 peer，若 peer 为 0 且持续 30 分钟，再判断为资源侧问题。</div>
+      </details>
+    </section>
+
+    <!-- 用户评论 -->
+    <section class="section" id="talk" aria-labelledby="tkTitle">
+      <div class="sec-head">
+        <h2 id="tkTitle">用户评论：条目页底下那些具体说法</h2>
+        <span class="sub">含中性意见与吐槽，按时间排列</span>
+      </div>
+      <div class="comment-list">
+        <div class="comment">
+          <div class="who"><span class="avatar">阿</span><b>阿岚_cycling</b><span>11-06 21:14</span><span class="ref">指条目：环法第 12 赛段</span></div>
+          <p>新版哈希确实能下，主文件 1.4 GB 十分钟拉完。<b>但附加音轨还是缺的</b>，发布者把音轨拆到另一个种子里去了，条目页没写清楚，白等了一晚。</p>
+        </div>
+        <div class="comment neutral">
+          <div class="who"><span class="avatar">老</span><b>老周修电脑</b><span>11-06 15:02</span><span class="ref">指条目：Linux 内核 6.12 文档</span></div>
+          <p>317 个文件里有一半是 HTML 单页，其实用不上。建议索引站加个「按类型筛选」的开关，不然勾选要翻好久。做种 63 这个数字倒是挺准。</p>
+        </div>
+        <div class="comment">
+          <div class="who"><span class="avatar">海</span><b>海胆不加糖</b><span>11-05 22:40</span><span class="ref">指条目：海岸线潮间带图谱</span></div>
+          <p>4K 版画质比预想好，字幕轨是内嵌的，不用另找。<b>做种 214 里大概有 30 个是长期挂机的</b>，实测速度稳定在 8 MB/s，够用了。</p>
+        </div>
+        <div class="comment neutral">
+          <div class="who"><span class="avatar">一</span><b>一条咸鱼</b><span>11-05 10:18</span><span class="ref">指条目：城市骑行 GPX 包</span></div>
+          <p>42 条轨迹里有 5 条是重复路线，文件名只差一个后缀。做种只有 12 个，下是下完了，整理花了半小时。希望条目页把轨迹数量写准。</p>
+        </div>
+        <div class="comment">
+          <div class="who"><span class="avatar">键</span><b>键盘上的猫</b><span>11-04 19:55</span><span class="ref">指条目：qBittorrent 4.6.7</span></div>
+          <p>按指南把上传限到 2 MB/s 之后，白天开网页不卡了。做种比设 1.0 自动停这点很实用，之前挂了两天占满上行，被室友投诉。</p>
+        </div>
+        <div class="comment neutral">
+          <div class="who"><span class="avatar">M</span><b>Mira读论文</b><span>11-03 13:26</span><span class="ref">指条目：arXiv 批量包</span></div>
+          <p>CC-BY-NC 的批次别再分发，索引站标签写得太小，第一次差点看漏。<b>建议在下载按钮旁边直接标授权类型</b>，比藏在详情里有效。</p>
+        </div>
+        <div class="comment">
+          <div class="who"><span class="avatar">磁</span><b>磁针不指南</b><span>11-02 08:47</span><span class="ref">指条目：三个老 tracker</span></div>
+          <p>A 站那 18 个 tracker 我也遇到了，删到只剩 3 个之后数字终于正常。索引站把失效 tracker 留在名单里，纯粹是给做种数注水。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 相关资讯 -->
+    <section class="section" id="news" aria-labelledby="nwTitle">
+      <div class="sec-head">
+        <h2 id="nwTitle">相关资讯：规则、协议与授权变动</h2>
+        <span class="sub">每条一句事实 + 一句影响</span>
+      </div>
+      <ul class="list">
+        <li>
+          <span class="date">11-07</span>
+          <div class="body">
+            <b>两家公共 tracker 宣布启用 v2 哈希索引。</b>影响：同时发布 v1/v2 的开源镜像更容易被检索到，纯 v1 站点的老条目仍需手动粘贴。<span class="hint">来源：tracker 官方状态页</span>
+          </div>
+        </li>
+        <li>
+          <span class="date">11-05</span>
+          <div class="body">
+            <b>某开放数据集更新授权条款，从 CC-BY 改为 CC-BY-NC。</b>影响：此前批量分发的种子包不能继续用于商业用途，再分发前先看 README。<span class="hint">依据：数据集仓库 README 修订记录</span>
+          </div>
+        </li>
+        <li>
+          <span class="date">11-03</span>
+          <div class="body">
+            <b>qBittorrent 发布 4.6.8 测试版，修复了 v2 种子的元数据获取超时。</b>影响：遇到 btmh 链接长期停在「获取元数据」的用户，升级后成功率明显提高。<span class="hint">来源：项目 changelog</span>
+          </div>
+        </li>
+        <li>
+          <span class="date">11-01</span>
+          <div class="body">
+            <b>三个老 tracker 正式停止服务。</b>影响：依赖这些 tracker 的老种子做种数会骤降，但 DHT 节点较多的条目仍能连上。<span class="hint">已在客户端推荐列表移除</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 榜单 -->
+    <section class="section" id="rank" aria-labelledby="rkTitle">
+      <div class="sec-head">
+        <h2 id="rkTitle">资源榜单：按「完整文件可得性」排序</h2>
+        <span class="count">11-07 抓取</span>
+      </div>
+      <ol class="rank">
+        <li><span class="no">1</span><span class="grow"><b>潮间带生物图谱 4K</b> · 双站同源，字幕轨内嵌，214 做种中实测 58 个可连</span><span class="num">可得性 98%</span></li>
+        <li><span class="no">2</span><span class="grow"><b>Linux 内核 6.12 文档</b> · 317 文件齐全，6 个 tracker 全部有效</span><span class="num">可得性 95%</span></li>
+        <li><span class="no">3</span><span class="grow"><b>2026 环法第 12 赛段</b> · 主文件完整，附加音轨缺失</span><span class="num">可得性 81%</span></li>
+        <li><span class="no">4</span><span class="grow"><b>城市骑行 GPX 包</b> · 文件齐，但含 5 条重复轨迹</span><span class="num">可得性 76%</span></li>
+        <li><span class="no">5</span><span class="grow"><b>arXiv 批量包（10 月批次）</b> · 授权标签需自查，文件树完整</span><span class="num">可得性 72%</span></li>
+        <li><span class="no">6</span><span class="grow"><b>2026 秋日剧 1080p 单集包</b> · 做种波动大，晚间速度较好</span><span class="num">可得性 64%</span></li>
+      </ol>
+    </section>
+
+    <!-- 时间线 -->
+    <section class="section" id="timeline" aria-labelledby="tlTitle">
+      <div class="sec-head">
+        <h2 id="tlTitle">时间线：本月与磁力索引相关的关键节点</h2>
+        <span class="sub">对照上文更新日志与资讯</span>
+      </div>
+      <ul class="timeline">
+        <li><time>2026-10-30</time><b>旧哈希被标记</b><p>环法回放旧哈希元数据获取失败，触发自动假种规则。</p></li>
+        <li><time>2026-11-01</time><b>三个老 tracker 停服</b><p>依赖这些 tracker 的若干条目做种数骤降。</p></li>
+        <li><time>2026-11-02</time><b>用户提出新哈希</b><p>评论区指出 1d06 结尾的新哈希可正常拉取。</p></li>
+        <li><time>2026-11-05</time><b>双站同源确认</b><p>纪录片条目合并，避免重复计数。</p></li>
+        <li><time>2026-11-06</time><b>撤销假种标签</b><p>保留两条哈希记录，并补充附加音轨说明。</p></li>
+        <li><time>2026-11-07</time><b>新增两个镜像</b><p>支持 v1/v2 双格式查询，实测元数据获取 1.2 秒。</p></li>
+      </ul>
+    </section>
+
+    <!-- 用户互动：投票 -->
+    <section class="section" id="poll" aria-labelledby="plTitle">
+      <div class="sec-head">
+        <h2 id="plTitle">互动栏目：你判断「死种」的标准是哪一条</h2>
+        <span class="sub">匿名示例投票，结果仅作参考，不构成事实统计</span>
+      </div>
+      <div class="poll" id="pollBox">
+        <p id="pollQ" style="font-weight:600;color:var(--c-ink);margin-bottom:12px;">拖了 30 分钟一个 peer 都没连上，你会怎么处理？</p>
+        <div id="pollOpts">
+          <button class="opt" type="button" data-opt="a" aria-pressed="false"><span class="bar"></span><span class="txt"><span>直接删任务，判为死种</span><span class="pct"></span></span></button>
+          <button class="opt" type="button" data-opt="b" aria-pressed="false"><span class="bar"></span><span class="txt"><span>换 tracker 名单再等一晚</span><span class="pct"></span></span></button>
+          <button class="opt" type="button" data-opt="c" aria-pressed="false"><span class="bar"></span><span class="txt"><span>去索引站查最近抓取时间</span><span class="pct"></span></span></button>
+          <button class="opt" type="button" data-opt="d" aria-pressed="false"><span class="bar"></span><span class="txt"><span>找同内容的另一个哈希</span><span class="pct"></span></span></button>
+        </div>
+        <p class="tip" id="pollTip" role="status"></p>
+      </div>
+    </section>
+
+    <!-- 相关推荐 -->
+    <section class="section" id="related" aria-labelledby="rlTitle">
+      <div class="sec-head">
+        <h2 id="rlTitle">相关推荐：继续查这几组词</h2>
+        <span class="sub">标签式索引，点开回到对应板块</span>
+      </div>
+      <p>
+        <a class="chip hot" href="/#deep">磁力链接哈希校验方法</a>
+        <a class="chip" href="/#faq">BTIH v2 64 位怎么用</a>
+        <a class="chip" href="/#guide">qBittorrent 做种比设置</a>
+        <a class="chip" href="/#faq">死种判断标准</a>
+        <a class="chip" href="/#deep">tracker 名单去重</a>
+        <a class="chip" href="/#channels">开源镜像 ISO 种子</a>
+        <a class="chip" href="/#picks">4K 纪录片磁力索引</a>
+        <a class="chip" href="/#news">CC-BY-NC 再分发限制</a>
+        <a class="chip" href="/#guide">手机端添加 magnet 链接</a>
+        <a class="chip" href="/#latest">索引站镜像更新</a>
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer" id="footer">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="brand-f">
+          <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="8" fill="#f2b544"></rect>
+            <path d="M8 21a8 8 0 0 1 16 0" fill="none" stroke="#0f4c5c" stroke-width="3" stroke-linecap="round"></path>
+            <path d="M16 7v10" stroke="#0f4c5c" stroke-width="3" stroke-linecap="round"></path>
+            <circle cx="16" cy="23" r="2.6" fill="#0f4c5c"></circle>
+          </svg>
+          磁力下载网站
+        </div>
+        <p class="pos">把哈希、tracker 与文件清单放在同一张表里看，比单看做种数更能判断资源是否可用。</p>
+      </div>
+      <div>
+        <h3>查条目</h3>
+        <ul>
+          <li><a href="/#picks">本周精选</a></li>
+          <li><a href="/#latest">最新收录</a></li>
+          <li><a href="/#rank">可得性榜单</a></li>
+          <li><a href="/#related">长尾检索词</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>学方法</h3>
+        <ul>
+          <li><a href="/#overview">哈希与 tracker</a></li>
+          <li><a href="/#deep">做种数可信度</a></li>
+          <li><a href="/#guide">客户端配置</a></li>
+          <li><a href="/#faq">常见问题</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>看动态</h3>
+        <ul>
+          <li><a href="/#news">规则与协议变动</a></li>
+          <li><a href="/#timeline">本月时间线</a></li>
+          <li><a href="/#talk">用户说法</a></li>
+          <li><a href="/#poll">互动投票</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>页面更新时间：2026-11-08，对应正文更新日志第 1—5 条与时间线 11-06、11-07 两处。</span>
+      <span>条目、做种数、评论与投票均为示例数据，用于说明判断方法，不构成对任何具体资源的担保。</span>
+      <span>© 2026 磁力下载网站</span>
+    </div>
+  </div>
+</footer>
+
+<button id="toTop" type="button" aria-label="回到页面顶部">↑</button>
+
+<script>
+(function(){
+  var menuBtn=document.getElementById('menuBtn');
+  var nav=document.getElementById('mainNav');
+  function closeNav(){
+    if(nav&&nav.classList.contains('open')){
+      nav.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    }
+  }
+  if(menuBtn&&nav){
+    menuBtn.addEventListener('click',function(){
+      var open=nav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    });
+    nav.addEventListener('click',function(e){
+      if(e.target.tagName==='A'&&window.matchMedia('(max-width:720px)').matches){
+        closeNav();
+      }
+    });
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape') closeNav();
+    });
+  }
+
+  // 本地查找
+  var form=document.getElementById('searchForm');
+  var input=document.getElementById('q');
+  var out=document.getElementById('searchResult');
+  var index=[];
+  document.querySelectorAll('main h2, main h3, main .list .body b, main .chip, main summary').forEach(function(el){
+    var text=(el.textContent||'').trim().replace(/\s+/g,' ');
+    if(!text) return;
+    var target=el.closest('section[id],details');
+    var anchor='';
+    if(el.tagName==='H2') anchor=el.parentElement.parentElement.id;
+    else if(target&&target.id) anchor=target.id;
+    else{
+      var sec=el.closest('section[id]');
+      if(sec) anchor=sec.id;
+    }
+    index.push({text:text,anchor:anchor||'top'});
+  });
+  function doSearch(){
+    var kw=(input.value||'').trim();
+    if(!kw){
+      out.classList.remove('on');
+      out.innerHTML='';
+      return;
+    }
+    var low=kw.toLowerCase();
+    var hits=index.filter(function(it){return it.text.toLowerCase().indexOf(low)>-1;});
+    var seen={},html='';
+    hits.forEach(function(it){
+      if(seen[it.text]) return;
+      seen[it.text]=1;
+      html+='<li><a href="/#'+it.anchor+'">'+it.text.replace(/[<>&]/g,'')+'</a></li>';
+    });
+    if(!hits.length){
+      out.innerHTML='<p class="nores">没有找到与「'+kw.replace(/[<>&]/g,'')+'」匹配的条目或术语。可以试试：BTIH、tracker、做种、死种、qBittorrent、v2 哈希。</p>';
+    }else{
+      out.innerHTML='<ul style="list-style:none;padding:0;margin:0;">'+html+'</ul>';
+    }
+    out.classList.add('on');
+  }
+  if(form){
+    form.addEventListener('submit',function(e){e.preventDefault();doSearch();});
+    input.addEventListener('input',function(){
+      if(input.value.trim()==='') {out.classList.remove('on');out.innerHTML='';}
+    });
+  }
+  document.addEventListener('click',function(e){
+    if(out&&out.classList.contains('on')&&!form.contains(e.target)&&!out.contains(e.target)){
+      out.classList.remove('on');
+    }
+  });
+
+  // 投票
+  var poll=document.getElementById('pollBox');
+  var tip=document.getElementById('pollTip');
+  var voted=false;
+  if(poll){
+    poll.addEventListener('click',function(e){
+      var btn=e.target.closest('.opt');
+      if(!btn) return;
+      if(voted){
+        tip.textContent='已经投过一票了，结果仅供示例参考。';
+        return;
+      }
+      voted=true;
+      var opts=poll.querySelectorAll('.opt');
+      var counts=[46,27,18,9];
+      opts.forEach(function(o,i){
+        o.setAttribute('aria-pressed',o===btn?'true':'false');
+        var bar=o.querySelector('.bar');
+        var pct=o.querySelector('.pct');
+        if(bar) bar.style.width=counts[i]+'%';
+        if(pct) pct.textContent=counts[i]+'%';
+      });
+      tip.textContent='感谢参与。示例样本共 214 票，仅用于演示互动结构。';
+    });
+  }
+
+  // 回到顶部
+  var toTop=document.getElementById('toTop');
+  function onScroll(){
+    if(window.scrollY>420) toTop.classList.add('show');
+    else toTop.classList.remove('show');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+  toTop.addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // 导航高亮
+  var links=Array.prototype.slice.call(document.querySelectorAll('#mainNav a'));
+  var sections=links.map(function(a){
+    var id=a.getAttribute('href').replace('/#','');
+    return document.getElementById(id);
+  }).filter(Boolean);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          links.forEach(function(a){
+            a.classList.toggle('active',a.getAttribute('href')==='/#跳转'||a.getAttribute('href')==='#'+en.target.id||a.getAttribute('href')==='/'+'#'+en.target.id);
+          });
+        }
+      });
+    },{rootMargin:'-40% 0px -55% 0px'});
+    sections.forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "name":"磁力下载网站",
+  "inLanguage":"zh-CN",
+  "description":"磁力链接解析、BT 种子索引与下载客户端配置的实用指南站点。"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"磁力链接打不开、一直显示「获取元数据」怎么办？",
+      "acceptedAnswer":{"@type":"Answer","text":"DHT 被关闭、tracker 全挂或节点不足都会造成该现象。先打开 DHT 等 3—5 分钟，仍无反应再看条目最近成功抓取时间，超过 7 天没有新 peer 基本可判为死种。"}
+    },
+    {
+      "@type":"Question",
+      "name":"BTIH 的 40 位和 64 位有什么区别，能互转吗？",
+      "acceptedAnswer":{"@type":"Answer","text":"40 位是 v1 的 SHA-1 哈希，64 位是 v2 的 SHA-256 哈希，算法不同不能互转。纯 v2 链接建议直接复制完整 magnet 到客户端添加。"}
+    },
+    {
+      "@type":"Question",
+      "name":"tracker 全失效了，DHT 还能救回老种吗？",
+      "acceptedAnswer":{"@type":"Answer","text":"公网 IP 且 UDP 未被拦截时 DHT 成功率较高；企业网或校园网常封 UDP，此时只能更换 tracker 或等待新种。"}
+    },
+    {
+      "@type":"Question",
+      "name":"索引站显示的做种数为什么和客户端不一致？",
+      "acceptedAnswer":{"@type":"Answer","text":"索引站数字是抓取时刻 tracker 上报总和，含失效节点与下载者；客户端显示的是实际握手的 peer。比较时看同一哈希在两站的 tracker 名单差异更有意义。"}
+    },
+    {
+      "@type":"Question",
+      "name":"整轨 FLAC 带 CUE 的文件，播放器不识别怎么办？",
+      "acceptedAnswer":{"@type":"Answer","text":"CUE 内部文件名编码常与系统不一致。用 foobar2000 打开后另存为 UTF-8，或按时间点手动分轨；分轨版资源可省去这一步。"}
+    },
+    {
+      "@type":"Question",
+      "name":"同一个标题出现多个哈希，该信哪一个？",
+      "acceptedAnswer":{"@type":"Answer","text":"先看条目页是否分别标注多个 BTIH 的做种与文件树，优先选择元数据获取成功、10 分钟内能连上 peer 的那个。"}
+    },
+    {
+      "@type":"Question",
+      "name":"下载到一半没有速度了，是资源被删了吗？",
+      "acceptedAnswer":{"@type":"Answer","text":"不一定。发布者撤种、tracker 短时失联、本地磁盘写满都会让速度归零。先看客户端对等页是否还有 peer，持续 30 分钟为 0 再判断为资源侧问题。"}
+    }
+  ]
+}
+</script>
+</body>
+                                                                                                                                  </html>
